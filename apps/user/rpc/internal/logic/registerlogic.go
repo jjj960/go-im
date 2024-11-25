@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	ErrPhoneIsRegister = errors.New("The phone number has already been registered")
+	ErrPhoneIsRegister = errors.New("该手机号已被注册")
 )
 
 type RegisterLogic struct {
