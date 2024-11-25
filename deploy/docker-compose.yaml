@@ -2,20 +2,16 @@ version: '3'
 
 services:
   etcd:
-    image: bitnami/etcd:3.4.15
+    image: quay.io/coreos/etcd:v3.5.12
     container_name: etcd
     ports:
-      - "3379:2379"
-      - "3380:2380"
-    environment:
-      - ETCD_ENABLE_V2=true
-      - ALLOW_NONE_AUTHENTICATION=yes
-      - ETCD_ADVERTISE_CLIENT_URLS=http://192.168.126.128:3379
-      - ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379
-      - ETCD_NAME=etcd
+      - 3379:2379
+      - 3380:2380
+    command: /usr/local/bin/etcd --config-file=/var/lib/etcd/conf/etcd.conf.yml
     volumes:
-      - /root/components/etcd/data:/bitnami/etcd/data
-      - /root/components/etcd/logs:/bitnami/etcd/logs
+      - /root/components/etcd/data:/var/etcd
+      - /root/components/etcd/config/etcd.conf.yml:/var/lib/etcd/conf/etcd.conf.yml
+    restart: always
     networks:
       easy-chat:
 
