@@ -2,10 +2,21 @@ package logic
 
 import (
 	"context"
+	"database/sql"
+	"errors"
+	"goim/apps/user/model"
 	"goim/apps/user/rpc/internal/svc"
 	"goim/apps/user/rpc/user"
+	"goim/pkg/ctxdata"
+	"goim/pkg/encrypt"
+	"goim/pkg/wuid"
+	"time"
 
 	"github.com/zeromicro/go-zero/core/logx"
+)
+
+var (
+	ErrPhoneIsRegister = errors.New("The phone number has already been registered")
 )
 
 type RegisterLogic struct {
@@ -23,7 +34,54 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 }
 
 func (l *RegisterLogic) Register(in *user.RegisterReq) (*user.RegisterResp, error) {
-	// todo: add your logic here and delete this line
+	//验证用户是否注册过,根据手机号验证
+	userEntity, err := l.svcCtx.UsersModel.FindByPhone(l.ctx, in.Phone)
+	if err != nil && err != model.ErrNotFound {
+		return nil, err
+	}
 
-	return &user.RegisterResp{}, nil
+	if userEntity != nil {
+		return nil, ErrPhoneIsRegister
+	}
+
+	// 定义用户数据
+	userEntity = &model.Users{
+		Id:       wuid.GenUid(l.svcCtx.Config.Mysql.DataSource),
+		Avatar:   in.Avatar,
+		Nickname: in.Nickname,
+		Phone:    in.Phone,
+		Sex: sql.NullInt64{
+			Int64: int64(in.Sex),
+			Valid: true,
+		},
+	}
+
+	if len(in.Password) > 0 { //密码加密
+		genPassword, err := encrypt.GenPasswordHash([]byte(in.Password))
+		if err != nil {
+			return nil, err
+		}
+		userEntity.Password = sql.NullString{
+			String: string(genPassword),
+			Valid:  true,
+		}
+	}
+
+	_, err = l.svcCtx.UsersModel.Insert(l.ctx, userEntity) //插入数据库
+	if err != nil {
+		return nil, err
+	}
+
+	// 生成token,用户注册完成直接登录
+	now := time.Now().Unix()
+	token, err := ctxdata.GetJwtToken(l.svcCtx.Config.Jwt.AccessSecret, now, l.svcCtx.Config.Jwt.AccessExpire,
+		userEntity.Id)
+	if err != nil {
+		return nil, err
+	}
+
+	return &user.RegisterResp{
+		Token:  token,
+		Expire: now + l.svcCtx.Config.Jwt.AccessExpire,
+	}, nil
 }

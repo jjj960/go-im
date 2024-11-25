@@ -1,6 +1,18 @@
 Name: user.rpc
-ListenOn: 0.0.0.0:8080
+ListenOn: 0.0.0.0:10000
 Etcd:
   Hosts:
-  - 127.0.0.1:2379
+    - 192.168.126.128:3379
   Key: user.rpc
+
+Mysql:
+  DataSource: root@12315.hys@tcp(192.168.126.128:13306)/goim?charset=utf8mb4
+
+Cache:
+   Host: 192.168.126.128:16379
+   Type: node
+   Pass: 12315.hys
+
+Jwt:
+  AccessSecret: hysgo-im
+  AccessExpire: 8640000
