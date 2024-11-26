@@ -19,9 +19,9 @@ type (
 	}
 )
 
-// NewGroupsModel returns a usermodel for the database table.
-func NewGroupsModel(conn sqlx.SqlConn, c cache.CacheConf, opts ...cache.Option) GroupsModel {
+// NewGroupsModel returns a model for the database table.
+func NewGroupsModel(conn sqlx.SqlConn, c cache.CacheConf) GroupsModel {
 	return &customGroupsModel{
-		defaultGroupsModel: newGroupsModel(conn, c, opts...),
+		defaultGroupsModel: newGroupsModel(conn, c),
 	}
 }
