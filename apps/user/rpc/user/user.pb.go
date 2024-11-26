@@ -20,7 +20,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// model
+// usermodel
 type UserEntity struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

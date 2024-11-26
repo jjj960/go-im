@@ -3,9 +3,9 @@ package logic
 import (
 	"context"
 	"github.com/jinzhu/copier"
-	"goim/apps/user/model"
 	"goim/apps/user/rpc/internal/svc"
 	"goim/apps/user/rpc/user"
+	"goim/apps/user/usermodel"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,7 +26,7 @@ func NewFindUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindUser
 
 func (l *FindUserLogic) FindUser(in *user.FindUserReq) (*user.FindUserResp, error) {
 	var (
-		userEntitys []*model.Users
+		userEntitys []*usermodel.Users
 		err         error
 	)
 

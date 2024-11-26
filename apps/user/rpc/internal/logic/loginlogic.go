@@ -3,9 +3,9 @@ package logic
 import (
 	"context"
 	"github.com/pkg/errors"
-	"goim/apps/user/model"
 	"goim/apps/user/rpc/internal/svc"
 	"goim/apps/user/rpc/user"
+	"goim/apps/user/usermodel"
 	"goim/pkg/ctxdata"
 	"goim/pkg/encrypt"
 	"goim/pkg/xerr"
@@ -37,7 +37,7 @@ func (l *LoginLogic) Login(in *user.LoginReq) (*user.LoginResp, error) {
 	// 1. 验证用户是否注册，根据手机号码验证
 	userEntity, err := l.svcCtx.UsersModel.FindByPhone(l.ctx, in.Phone)
 	if err != nil {
-		if err == model.ErrNotFound {
+		if err == usermodel.ErrNotFound {
 			return nil, errors.WithStack(ErrPhoneNotRegister)
 		}
 		return nil, errors.Wrapf(xerr.NewDBErr(), "find user by phone err %v , req %v", err, in.Phone)

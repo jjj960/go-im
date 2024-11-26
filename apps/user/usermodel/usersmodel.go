@@ -1,4 +1,4 @@
-package model
+package usermodel
 
 import (
 	"github.com/zeromicro/go-zero/core/stores/cache"
@@ -19,7 +19,7 @@ type (
 	}
 )
 
-// NewUsersModel returns a model for the database table.
+// NewUsersModel returns a usermodel for the database table.
 func NewUsersModel(conn sqlx.SqlConn, c cache.CacheConf, opts ...cache.Option) UsersModel {
 	return &customUsersModel{
 		defaultUsersModel: newUsersModel(conn, c, opts...),

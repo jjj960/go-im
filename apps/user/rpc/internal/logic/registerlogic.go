@@ -4,9 +4,9 @@ import (
 	"context"
 	"database/sql"
 	"errors"
-	"goim/apps/user/model"
 	"goim/apps/user/rpc/internal/svc"
 	"goim/apps/user/rpc/user"
+	"goim/apps/user/usermodel"
 	"goim/pkg/ctxdata"
 	"goim/pkg/encrypt"
 	"goim/pkg/wuid"
@@ -36,7 +36,7 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 func (l *RegisterLogic) Register(in *user.RegisterReq) (*user.RegisterResp, error) {
 	//验证用户是否注册过,根据手机号验证
 	userEntity, err := l.svcCtx.UsersModel.FindByPhone(l.ctx, in.Phone)
-	if err != nil && err != model.ErrNotFound {
+	if err != nil && err != usermodel.ErrNotFound {
 		return nil, err
 	}
 
@@ -45,7 +45,7 @@ func (l *RegisterLogic) Register(in *user.RegisterReq) (*user.RegisterResp, erro
 	}
 
 	// 定义用户数据
-	userEntity = &model.Users{
+	userEntity = &usermodel.Users{
 		Id:       wuid.GenUid(l.svcCtx.Config.Mysql.DataSource),
 		Avatar:   in.Avatar,
 		Nickname: in.Nickname,

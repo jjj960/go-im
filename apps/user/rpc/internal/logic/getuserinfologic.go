@@ -4,9 +4,9 @@ import (
 	"context"
 	"errors"
 	"github.com/jinzhu/copier"
-	"goim/apps/user/model"
 	"goim/apps/user/rpc/internal/svc"
 	"goim/apps/user/rpc/user"
+	"goim/apps/user/usermodel"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -30,7 +30,7 @@ func NewGetUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 func (l *GetUserInfoLogic) GetUserInfo(in *user.GetUserInfoReq) (*user.GetUserInfoResp, error) {
 	userEntiy, err := l.svcCtx.UsersModel.FindOne(l.ctx, in.Id)
 	if err != nil {
-		if err == model.ErrNotFound {
+		if err == usermodel.ErrNotFound {
 			return nil, ErrUserNotFound
 		}
 		return nil, err
