@@ -4,17 +4,16 @@ import (
 	"flag"
 	"fmt"
 	"github.com/zeromicro/go-zero/rest/httpx"
+	"goim/apps/social/api/internal/config"
+	"goim/apps/social/api/internal/handler"
+	"goim/apps/social/api/internal/svc"
 	"goim/pkg/resultx"
-
-	"goim/apps/user/api/internal/config"
-	"goim/apps/user/api/internal/handler"
-	"goim/apps/user/api/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/rest"
 )
 
-var configFile = flag.String("f", "etc/user.yaml", "the config file")
+var configFile = flag.String("f", "etc/social.yaml", "the config file")
 
 func main() {
 	flag.Parse()

@@ -3,14 +3,14 @@ version: '3'
 services:
   etcd:
     image: quay.io/coreos/etcd:v3.5.12
-    container_name: etcd
+    container_name: etc
     ports:
       - 2379:2379
       - 2380:2380
-    command: /usr/local/bin/etcd --config-file=/var/lib/etcd/conf/etcd.conf.yml
+    command: /usr/local/bin/etc --config-file=/var/lib/etc/conf/etc.conf.yml
     volumes:
-      - /root/components/etcd/data:/var/etcd
-      - /root/components/etcd/config/etcd.conf.yml:/var/lib/etcd/conf/etcd.conf.yml
+      - /root/components/etc/data:/var/etc
+      - /root/components/etc/config/etc.conf.yml:/var/lib/etc/conf/etc.conf.yml
     restart: always
     networks:
       easy-chat:
