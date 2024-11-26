@@ -4,13 +4,13 @@ import (
 	"context"
 	"database/sql"
 	"github.com/pkg/errors"
+	"goim/apps/social/rpc/internal/svc"
+	"goim/apps/social/rpc/social"
 	"goim/apps/social/socialmodel"
 	constants "goim/pkg/constant"
 	"goim/pkg/xerr"
-	"time"
 
-	"goim/apps/social/rpc/internal/svc"
-	"goim/apps/social/rpc/social"
+	"time"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -29,8 +29,8 @@ func NewFriendPutInLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Frien
 	}
 }
 
-// 好友申请业务
 func (l *FriendPutInLogic) FriendPutIn(in *social.FriendPutInReq) (*social.FriendPutInResp, error) {
+	// todo: add your logic here and delete this line
 
 	// 申请人是否与目标是好友关系
 	friends, err := l.svcCtx.FriendsModel.FindByUidAndFid(l.ctx, in.UserId, in.ReqUid)

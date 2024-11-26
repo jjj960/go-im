@@ -4,12 +4,11 @@ import (
 	"context"
 	"github.com/pkg/errors"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
+	"goim/apps/social/rpc/internal/svc"
+	"goim/apps/social/rpc/social"
 	"goim/apps/social/socialmodel"
 	constants "goim/pkg/constant"
 	"goim/pkg/xerr"
-
-	"goim/apps/social/rpc/internal/svc"
-	"goim/apps/social/rpc/social"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -34,6 +33,7 @@ func NewFriendPutInHandleLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 }
 
 func (l *FriendPutInHandleLogic) FriendPutInHandle(in *social.FriendPutInHandleReq) (*social.FriendPutInHandleResp, error) {
+
 	// 获取好友申请记录
 	firendReq, err := l.svcCtx.FriendRequestsModel.FindOne(l.ctx, int64(in.FriendReqId))
 	if err != nil {
@@ -51,7 +51,7 @@ func (l *FriendPutInHandleLogic) FriendPutInHandle(in *social.FriendPutInHandleR
 
 	firendReq.HandleResult.Int64 = int64(in.HandleResult)
 
-	// 修改申请结果 ,通过建立两条好友关系记录 , 事务
+	// 修改申请结果 -》 通过【建立两条好友关系记录】 -》 事务
 	err = l.svcCtx.FriendRequestsModel.Trans(l.ctx, func(ctx context.Context, session sqlx.Session) error {
 		if err := l.svcCtx.FriendRequestsModel.Update(l.ctx, session, firendReq); err != nil {
 			return errors.Wrapf(xerr.NewDBErr(), "update friend request err %v, req %v", err, firendReq)

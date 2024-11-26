@@ -19,9 +19,9 @@ type (
 	}
 )
 
-// NewFriendsModel returns a usermodel for the database table.
-func NewFriendsModel(conn sqlx.SqlConn, c cache.CacheConf, opts ...cache.Option) FriendsModel {
+// NewFriendsModel returns a model for the database table.
+func NewFriendsModel(conn sqlx.SqlConn, c cache.CacheConf) FriendsModel {
 	return &customFriendsModel{
-		defaultFriendsModel: newFriendsModel(conn, c, opts...),
+		defaultFriendsModel: newFriendsModel(conn, c),
 	}
 }
