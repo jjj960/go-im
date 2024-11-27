@@ -5,6 +5,7 @@ import (
 	"goim/apps/im/ws/internal/svc"
 	"goim/apps/im/ws/websocket"
 	"goim/apps/im/ws/wsmodel"
+	"goim/apps/task/mq"
 	constants "goim/pkg/constant"
 	"time"
 )
