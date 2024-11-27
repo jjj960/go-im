@@ -1,0 +1,14 @@
+Name: im.ws
+ListenOn: 0.0.0.0:10090
+
+JwtAuth:
+  AccessSecret: hysgo-im
+
+Mongo:
+  Url: "mongodb://root:easy-chat@192.168.126.128:47017"
+  Db: goim
+
+MsgChatTransfer:
+  Topic: msgChatTransfer
+  Addrs:
+    - 192.168.126.128:9092
