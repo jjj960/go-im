@@ -5,7 +5,7 @@ JwtAuth:
   AccessSecret: hysgo-im
 
 Mongo:
-  Url: "mongodb://root:easy-chat@192.168.126.128:47017"
+  Url: "mongodb://root:12315.hys@192.168.126.128:47017"
   Db: goim
 
 MsgChatTransfer:

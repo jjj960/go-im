@@ -1,0 +1,23 @@
+Name: task.mq
+ListenOn: 0.0.0.0:10091
+
+MsgChatTransfer:
+  Name: MsgChatTransfer
+  Brokers:
+    - 192.168.126.128:9092
+  Group: kafka
+  Topic: msgChatTransfer
+  Offset: first
+  Consumers: 1
+
+Redis:
+  Host: 192.168.117.24:16379
+  Type: node
+  Pass: 12315.hys
+
+Mongo:
+  Url: "mongodb://root:12315.hys@192.168.126.128:47017"
+  Db: goim
+
+Ws:
+  Host: 127.0.0.1:10090
